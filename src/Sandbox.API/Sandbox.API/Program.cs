@@ -3,10 +3,7 @@ using Sandbox.API;
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 builder.Configuration.RegisterConfigurations();
-
-builder.Services.Configure<GlobalSettings>(
-    builder.Configuration.GetSection(GlobalSettings.AppSettingsSection)
-);
+builder.Services.RegisterDependencies(builder.Configuration);
 
 builder.Services.AddControllers();
 
@@ -14,7 +11,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-var app = builder.Build();
+WebApplication app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

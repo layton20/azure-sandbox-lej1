@@ -1,8 +1,14 @@
-﻿namespace Sandbox.API.Entities
+﻿namespace Sandbox.API.Entities;
+
+public abstract class BaseEntity
 {
-    public abstract class BaseEntity
+    public BaseEntity()
     {
-        public int Id { get; set; }
-        public Guid Uid { get; set; }
+        Uid = Guid.NewGuid();
     }
+
+    public int Id { get; set; }
+    public Guid Uid { get; set; }
+    public DateTime CreateTimeStamp { get; set; }
+    public DateTime AmendTimeStamp { get; set; }
 }
