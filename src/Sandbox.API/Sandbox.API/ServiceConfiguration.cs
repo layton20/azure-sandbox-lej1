@@ -14,20 +14,35 @@ internal static class ServiceConfiguration
             .Configure<GlobalSettings>(configuration.GetSection(GlobalSettings.AppSettingsSection))
             .RegisterDatabases(configuration)
             .RegisterRepositories()
-            .RegisterManagers();
+            .RegisterManagers()
+            .RegisterAppInsights(configuration);
     }
 
-    internal static IServiceCollection RegisterRepositories(this IServiceCollection service)
+    private static IServiceCollection RegisterAppInsights(this IServiceCollection service,
+        ConfigurationManager configuration)
+    {
+        service.AddApplicationInsightsTelemetry(options =>
+        {
+            GlobalSettings? _Settings =
+                configuration.GetSection(GlobalSettings.AppSettingsSection).Get<GlobalSettings>();
+
+            options.ConnectionString = _Settings?.AppInsights?.ConnectionString ?? string.Empty;
+        });
+
+        return service;
+    }
+
+    private static IServiceCollection RegisterRepositories(this IServiceCollection service)
     {
         return service.AddScoped<ICustomerRepository, CustomerRepository>();
     }
 
-    internal static IServiceCollection RegisterManagers(this IServiceCollection service)
+    private static IServiceCollection RegisterManagers(this IServiceCollection service)
     {
         return service.AddScoped<ICustomerManager, CustomerManager>();
     }
 
-    internal static IServiceCollection RegisterDatabases(this IServiceCollection services,
+    private static IServiceCollection RegisterDatabases(this IServiceCollection services,
         ConfigurationManager configuration)
     {
         GlobalSettings? _Settings = configuration.GetSection(GlobalSettings.AppSettingsSection).Get<GlobalSettings>();

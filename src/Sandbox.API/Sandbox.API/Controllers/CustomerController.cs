@@ -3,6 +3,7 @@ using Sandbox.API.Adapters;
 using Sandbox.API.Entities;
 using Sandbox.API.Managers;
 using Sandbox.API.Models.Request;
+using Sandbox.API.Models.Response;
 
 namespace Sandbox.API.Controllers;
 
@@ -30,7 +31,9 @@ public class CustomerController : Controller
     {
         SaveResult _Result = await __CustomerManager.Create(request);
 
-        return _Result.IsSuccess ? Ok(_Result) : BadRequest(_Result);
+        if (_Result.IsDuplicate) return Conflict(_Result);
+
+        return _Result.IsSuccess ? Ok(CreateResponse.Success(_Result.Uid)) : BadRequest(CreateResponse.Failure());
     }
 
     [HttpDelete("{uid}")]
