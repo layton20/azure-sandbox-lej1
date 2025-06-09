@@ -14,19 +14,19 @@ public class CustomerRepository : ICustomerRepository
         __Context = context;
     }
 
-    public async Task<CustomerEntity> Get(Guid uid)
+    public async Task<CustomerEntity> GetAsync(Guid uid)
     {
         return await __Context.Customers.FindAsync(uid) ??
                throw new KeyNotFoundException($"Customer with UID {uid} not found.");
     }
 
-    public async Task<List<CustomerEntity>> Get()
+    public async Task<List<CustomerEntity>> GetAsync()
     {
         return await __Context.Customers.ToListAsync() ??
                throw new InvalidOperationException("No customers found in the database.");
     }
 
-    public async Task<SaveResult> Create(CustomerEntity customer)
+    public async Task<SaveResult> CreateAsync(CustomerEntity customer)
     {
         if (await __Context.Customers.AnyAsync(c => c.Email == customer.Email))
             return SaveResult.Duplicate(customer.Uid);
@@ -42,7 +42,7 @@ public class CustomerRepository : ICustomerRepository
         return _Changes > 0 ? SaveResult.Success(customer.Uid) : SaveResult.Failure();
     }
 
-    public async Task<bool> Delete(Guid uid)
+    public async Task<bool> DeleteAsync(Guid uid)
     {
         CustomerEntity? _Customer = await __Context.Customers.FirstOrDefaultAsync(c => c.Uid == uid);
 
@@ -53,7 +53,7 @@ public class CustomerRepository : ICustomerRepository
         return await __Context.SaveChangesAsync() > 0;
     }
 
-    public async Task<SaveResult> Update(CustomerEntity customer)
+    public async Task<SaveResult> UpdateAsync(CustomerEntity customer)
     {
         CustomerEntity? _Customer = await __Context.Customers.FirstOrDefaultAsync(c => c.Uid == customer.Uid);
 
@@ -72,7 +72,7 @@ public class CustomerRepository : ICustomerRepository
             : SaveResult.Failure();
     }
 
-    public async Task<bool> Delete(List<Guid> uids)
+    public async Task<bool> DeleteAsync(List<Guid> uids)
     {
         List<CustomerEntity> _Customers = await __Context.Customers.Where(c => uids.Contains(c.Uid)).ToListAsync();
 

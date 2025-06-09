@@ -5,15 +5,15 @@ namespace Sandbox.API.Managers;
 
 public interface ICustomerManager
 {
-    Task<CustomerEntity> Get(Guid uid);
+    Task<CustomerEntity> GetAsync(Guid uid);
 
-    Task<List<CustomerEntity>> Get();
+    Task<List<CustomerEntity>> GetAsync();
 
-    Task<SaveResult> Create(CustomerRequest request);
+    Task<SaveResult> CreateAsync(CustomerRequest request);
 
-    Task<bool> Delete(Guid uid);
+    Task<bool> DeleteAsync(Guid uid);
 
-    Task<SaveResult> Update(UpdateCustomerRequest request);
+    Task<SaveResult> UpdateAsync(UpdateCustomerRequest request);
 
-    Task<bool> Delete(List<Guid> uids);
+    Task<bool> DeleteAsync(List<Guid> uids);
 }

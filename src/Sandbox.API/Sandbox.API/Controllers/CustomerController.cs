@@ -21,7 +21,7 @@ public class CustomerController : Controller
     [HttpGet]
     public async Task<ActionResult> GetCustomersAsync()
     {
-        List<CustomerEntity> _Customers = await __CustomerManager.Get();
+        List<CustomerEntity> _Customers = await __CustomerManager.GetAsync();
 
         return Ok(CustomerAdapter.ToResponse(_Customers));
     }
@@ -29,7 +29,7 @@ public class CustomerController : Controller
     [HttpGet("{uid}")]
     public async Task<IActionResult> GetAsync(Guid uid)
     {
-        CustomerEntity _Customer = await __CustomerManager.Get(uid);
+        CustomerEntity _Customer = await __CustomerManager.GetAsync(uid);
 
         return _Customer != null ? Ok(CustomerAdapter.ToResponse(_Customer)) : NotFound();
     }
@@ -37,7 +37,7 @@ public class CustomerController : Controller
     [HttpPost]
     public async Task<IActionResult> CreateAsync([FromBody] CustomerRequest request)
     {
-        SaveResult _Result = await __CustomerManager.Create(request);
+        SaveResult _Result = await __CustomerManager.CreateAsync(request);
 
         if (_Result.IsDuplicate) return Conflict(_Result);
 
@@ -47,7 +47,7 @@ public class CustomerController : Controller
     [HttpDelete("{uid}")]
     public async Task<IActionResult> DeleteAsync(Guid uid)
     {
-        bool _Result = await __CustomerManager.Delete(uid);
+        bool _Result = await __CustomerManager.DeleteAsync(uid);
 
         return _Result ? Ok(_Result) : NotFound();
     }
@@ -55,7 +55,7 @@ public class CustomerController : Controller
     [HttpPost("BulkDelete")]
     public async Task<IActionResult> BulkDeleteAsync([FromBody] List<Guid> uids)
     {
-        bool _Result = await __CustomerManager.Delete(uids);
+        bool _Result = await __CustomerManager.DeleteAsync(uids);
 
         return _Result ? Ok(_Result) : NotFound();
     }
@@ -63,7 +63,7 @@ public class CustomerController : Controller
     [HttpPut("{uid}")]
     public async Task<IActionResult> UpdateAsync(Guid uid, [FromBody] UpdateCustomerRequest request)
     {
-        SaveResult _Result = await __CustomerManager.Update(request);
+        SaveResult _Result = await __CustomerManager.UpdateAsync(request);
 
         return _Result.IsSuccess ? Ok(true) : _Result.IsDuplicate ? Conflict(_Result) : NotFound();
     }

@@ -14,33 +14,33 @@ public class CustomerManager : ICustomerManager
         __CustomerRepository = customerRepository;
     }
 
-    public async Task<CustomerEntity> Get(Guid uid)
+    public async Task<CustomerEntity> GetAsync(Guid uid)
     {
-        return await __CustomerRepository.Get(uid);
+        return await __CustomerRepository.GetAsync(uid);
     }
 
-    public async Task<List<CustomerEntity>> Get()
+    public async Task<List<CustomerEntity>> GetAsync()
     {
-        return await __CustomerRepository.Get();
+        return await __CustomerRepository.GetAsync();
     }
 
-    public async Task<SaveResult> Create(CustomerRequest request)
+    public async Task<SaveResult> CreateAsync(CustomerRequest request)
     {
-        return await __CustomerRepository.Create(CustomerAdapter.ToEntity(request));
+        return await __CustomerRepository.CreateAsync(CustomerAdapter.ToEntity(request));
     }
 
-    public async Task<bool> Delete(Guid uid)
+    public async Task<bool> DeleteAsync(Guid uid)
     {
-        return await __CustomerRepository.Delete(uid);
+        return await __CustomerRepository.DeleteAsync(uid);
     }
 
-    public async Task<SaveResult> Update(UpdateCustomerRequest request)
+    public async Task<SaveResult> UpdateAsync(UpdateCustomerRequest request)
     {
-        return await __CustomerRepository.Update(CustomerAdapter.ToEntity(request, request.Uid));
+        return await __CustomerRepository.UpdateAsync(CustomerAdapter.ToEntity(request, request.Uid));
     }
 
-    public async Task<bool> Delete(List<Guid> uids)
+    public async Task<bool> DeleteAsync(List<Guid> uids)
     {
-        return await __CustomerRepository.Delete(uids);
+        return await __CustomerRepository.DeleteAsync(uids);
     }
 }
