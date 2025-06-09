@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Sandbox.API.Models.Request;
+namespace Sandbox.Client.Models.Request;
 
 public class CustomerRequest
 {

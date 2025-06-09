@@ -1,12 +1,12 @@
 ﻿using Sandbox.API.Entities;
-using Sandbox.API.Models.Request;
-using Sandbox.API.Models.Response;
+using Sandbox.Client.Models.Request;
+using Sandbox.Client.Models.Response;
 
 namespace Sandbox.API.Adapters;
 
 internal static class CustomerAdapter
 {
-    internal static CustomerResponse ToResponse(Customer? customer)
+    internal static CustomerResponse ToResponse(CustomerEntity? customer)
     {
         return customer == null
             ? null
@@ -18,13 +18,15 @@ internal static class CustomerAdapter
                 LastName = customer.LastName,
                 PostalCode = customer.PostalCode,
                 DateOfBirth = customer.DateOfBirth,
-                Email = customer.Email
+                Email = customer.Email,
+                AmendTimeStamp = customer.AmendTimeStamp,
+                CreateTimeStamp = customer.CreateTimeStamp
             };
     }
 
-    internal static Customer ToResponse(CustomerRequest request)
+    internal static CustomerEntity ToEntity(CustomerRequest request)
     {
-        return new Customer
+        return new CustomerEntity
         {
             FirstName = request.FirstName,
             LastName = request.LastName,
@@ -35,7 +37,14 @@ internal static class CustomerAdapter
         };
     }
 
-    internal static List<CustomerResponse> ToResponse(List<Customer> customers)
+    internal static CustomerEntity ToEntity(CustomerRequest request, Guid uid)
+    {
+        CustomerEntity _Customer = ToEntity(request);
+        _Customer.Uid = uid;
+        return _Customer;
+    }
+
+    internal static List<CustomerResponse> ToResponse(List<CustomerEntity> customers)
     {
         return customers?.Count > 0 ? customers.ConvertAll(ToResponse) : [];
     }

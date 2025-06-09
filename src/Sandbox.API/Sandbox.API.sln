@@ -1,9 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.14.36202.13 d17.14
+VisualStudioVersion = 17.14.36202.13
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sandbox.API", "Sandbox.API\Sandbox.API.csproj", "{017FBB74-250C-4BDB-BD7D-D2C9A1ACD0FD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sandbox.IntegrationTest", "Sandbox.IntegrationTest\Sandbox.IntegrationTest.csproj", "{9023A975-E784-491A-82B9-5F77FEA04304}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sandbox.Client", "Sandbox.Client\Sandbox.Client.csproj", "{96D4E084-D69A-4570-B3C0-00AEA5D3C924}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +19,14 @@ Global
 		{017FBB74-250C-4BDB-BD7D-D2C9A1ACD0FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{017FBB74-250C-4BDB-BD7D-D2C9A1ACD0FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{017FBB74-250C-4BDB-BD7D-D2C9A1ACD0FD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9023A975-E784-491A-82B9-5F77FEA04304}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9023A975-E784-491A-82B9-5F77FEA04304}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9023A975-E784-491A-82B9-5F77FEA04304}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9023A975-E784-491A-82B9-5F77FEA04304}.Release|Any CPU.Build.0 = Release|Any CPU
+		{96D4E084-D69A-4570-B3C0-00AEA5D3C924}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{96D4E084-D69A-4570-B3C0-00AEA5D3C924}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{96D4E084-D69A-4570-B3C0-00AEA5D3C924}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{96D4E084-D69A-4570-B3C0-00AEA5D3C924}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -2,8 +2,8 @@
 using Sandbox.API.Adapters;
 using Sandbox.API.Entities;
 using Sandbox.API.Managers;
-using Sandbox.API.Models.Request;
-using Sandbox.API.Models.Response;
+using Sandbox.Client.Models.Request;
+using Sandbox.Client.Models.Response;
 
 namespace Sandbox.API.Controllers;
 
@@ -19,11 +19,19 @@ public class CustomerController : Controller
     }
 
     [HttpGet]
-    public async Task<ActionResult> GetSampleCustomersAsync()
+    public async Task<ActionResult> GetCustomersAsync()
     {
-        List<Customer> _Customers = await __CustomerManager.Get();
+        List<CustomerEntity> _Customers = await __CustomerManager.Get();
 
         return Ok(CustomerAdapter.ToResponse(_Customers));
+    }
+
+    [HttpGet("{uid}")]
+    public async Task<IActionResult> GetAsync(Guid uid)
+    {
+        CustomerEntity _Customer = await __CustomerManager.Get(uid);
+
+        return _Customer != null ? Ok(CustomerAdapter.ToResponse(_Customer)) : NotFound();
     }
 
     [HttpPost]
@@ -42,5 +50,21 @@ public class CustomerController : Controller
         bool _Result = await __CustomerManager.Delete(uid);
 
         return _Result ? Ok(_Result) : NotFound();
+    }
+
+    [HttpPost("BulkDelete")]
+    public async Task<IActionResult> BulkDeleteAsync([FromBody] List<Guid> uids)
+    {
+        bool _Result = await __CustomerManager.Delete(uids);
+
+        return _Result ? Ok(_Result) : NotFound();
+    }
+
+    [HttpPut("{uid}")]
+    public async Task<IActionResult> UpdateAsync(Guid uid, [FromBody] UpdateCustomerRequest request)
+    {
+        SaveResult _Result = await __CustomerManager.Update(request);
+
+        return _Result.IsSuccess ? Ok(true) : _Result.IsDuplicate ? Conflict(_Result) : NotFound();
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace Sandbox.API.Models.Response;
+﻿namespace Sandbox.Client.Models.Response;
 
 public class CreateResponse
 {

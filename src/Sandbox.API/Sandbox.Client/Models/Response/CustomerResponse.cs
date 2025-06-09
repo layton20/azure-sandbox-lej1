@@ -1,6 +1,6 @@
-﻿namespace Sandbox.API.Models.Response;
+﻿namespace Sandbox.Client.Models.Response;
 
-public class CustomerResponse : BaseEntityResponse
+public class CustomerResponse : BaseModelResponse
 {
     public string FirstName { get; set; }
     public string LastName { get; set; }

@@ -1,6 +1,6 @@
-﻿namespace Sandbox.API.Models.Response;
+﻿namespace Sandbox.Client.Models.Response;
 
-public class BaseEntityResponse
+public class BaseModelResponse
 {
     public Guid Uid { get; set; }
     public DateTime CreateTimeStamp { get; set; }

@@ -4,9 +4,11 @@ namespace Sandbox.API.Repositories;
 
 public interface ICustomerRepository
 {
-    Task<Customer> Get(Guid uid);
+    Task<CustomerEntity> Get(Guid uid);
 
-    Task<List<Customer>> Get();
-    Task<SaveResult> Create(Customer customer);
+    Task<List<CustomerEntity>> Get();
+    Task<SaveResult> Create(CustomerEntity customer);
     Task<bool> Delete(Guid uid);
+    Task<SaveResult> Update(CustomerEntity customer);
+    Task<bool> Delete(List<Guid> uids);
 }

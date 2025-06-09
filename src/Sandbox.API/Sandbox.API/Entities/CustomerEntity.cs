@@ -2,7 +2,7 @@
 
 namespace Sandbox.API.Entities;
 
-public class Customer : BaseEntity
+public class CustomerEntity : BaseEntity
 {
     [Required] public string FirstName { get; set; } = string.Empty;
 
