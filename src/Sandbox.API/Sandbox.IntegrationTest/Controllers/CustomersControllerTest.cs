@@ -8,22 +8,25 @@ using Sandbox.Client.Models.Response;
 namespace Sandbox.IntegrationTest.Controllers;
 
 [TestClass]
-public class CustomerControllerTest : BaseTest
+public class CustomersControllerTest : BaseTest
 {
     private const string UPDATED = "Updated";
     private readonly ConcurrentBag<Guid> __Cleanup_Customer_UIDs = [];
-    private readonly CustomerClient __Client;
+    private readonly CustomersClient __Client;
 
-    public CustomerControllerTest()
+    public CustomersControllerTest()
     {
-        __Client = GetClient<CustomerClient>();
+        __Client = GetClient<CustomersClient>();
     }
 
     private async Task<CreateResponse> CreateCustomerAsync(CustomerRequest request)
     {
         CreateResponse _Response = await __Client.CreateCustomerAsync(request);
 
-        if (_Response.IsSuccess && _Response.Uid != Guid.Empty) __Cleanup_Customer_UIDs.Add(_Response.Uid);
+        if (_Response.IsSuccess && _Response.Uid != Guid.Empty)
+        {
+            __Cleanup_Customer_UIDs.Add(_Response.Uid);
+        }
 
         return _Response;
     }
@@ -40,9 +43,9 @@ public class CustomerControllerTest : BaseTest
 
 
     [TestMethod]
-    public async Task CustomerController_GetCustomers_ShouldReturnCustomersAsync()
+    public async Task CustomerController_GetCustomers_IncludePagingShouldReturnPagedCustomersAsync()
     {
-        int _PageSize = 5;
+        int _PageSize = 1;
 
         Faker<CustomerRequest>? _CustomerFaker = new Faker<CustomerRequest>()
             .RuleFor(x => x.FirstName, f => f.Name.FirstName())
@@ -56,7 +59,11 @@ public class CustomerControllerTest : BaseTest
             Enumerable.Range(0, _PageSize).Select(_ => CreateCustomerAsync(_CustomerFaker.Generate()))
         )).Select(x => x.Uid).ToList();
 
-        List<CustomerResponse> _GetCustomers = await __Client.GetCustomersAsync();
+        List<CustomerResponse> _GetCustomers = await __Client.GetCustomersAsync(new PagedRequest
+        {
+            PageNumber = 1,
+            PageSize = _PageSize
+        });
 
         Assert.IsNotNull(_GetCustomers);
         Assert.AreEqual(_PageSize, _GetCustomers.Count);

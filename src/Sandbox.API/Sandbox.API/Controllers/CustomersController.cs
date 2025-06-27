@@ -9,19 +9,19 @@ namespace Sandbox.API.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class CustomerController : Controller
+public class CustomersController : Controller
 {
     private readonly ICustomerManager __CustomerManager;
 
-    public CustomerController(ICustomerManager customerManager)
+    public CustomersController(ICustomerManager customerManager)
     {
         __CustomerManager = customerManager;
     }
 
     [HttpGet]
-    public async Task<ActionResult> GetCustomersAsync()
+    public async Task<ActionResult> GetCustomersAsync([FromQuery] PagedRequest request)
     {
-        List<CustomerEntity> _Customers = await __CustomerManager.GetAsync();
+        List<CustomerEntity> _Customers = await __CustomerManager.GetAsync(request);
 
         return Ok(CustomerAdapter.ToResponse(_Customers));
     }
@@ -39,7 +39,10 @@ public class CustomerController : Controller
     {
         SaveResult _Result = await __CustomerManager.CreateAsync(request);
 
-        if (_Result.IsDuplicate) return Conflict(_Result);
+        if (_Result.IsDuplicate)
+        {
+            return Conflict(_Result);
+        }
 
         return _Result.IsSuccess ? Ok(CreateResponse.Success(_Result.Uid)) : BadRequest(CreateResponse.Failure());
     }

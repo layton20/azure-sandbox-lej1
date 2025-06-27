@@ -19,9 +19,9 @@ public class CustomerManager : ICustomerManager
         return await __CustomerRepository.GetAsync(uid);
     }
 
-    public async Task<List<CustomerEntity>> GetAsync()
+    public async Task<List<CustomerEntity>> GetAsync(PagedRequest request)
     {
-        return await __CustomerRepository.GetAsync();
+        return await __CustomerRepository.GetAsync(request.PageNumber, request.PageSize);
     }
 
     public async Task<SaveResult> CreateAsync(CustomerRequest request)

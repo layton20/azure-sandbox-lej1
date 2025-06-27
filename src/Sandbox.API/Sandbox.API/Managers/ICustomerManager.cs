@@ -7,7 +7,7 @@ public interface ICustomerManager
 {
     Task<CustomerEntity> GetAsync(Guid uid);
 
-    Task<List<CustomerEntity>> GetAsync();
+    Task<List<CustomerEntity>> GetAsync(PagedRequest request);
 
     Task<SaveResult> CreateAsync(CustomerRequest request);
 

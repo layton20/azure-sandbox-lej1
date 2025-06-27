@@ -6,7 +6,7 @@ public interface ICustomerRepository
 {
     Task<CustomerEntity> GetAsync(Guid uid);
 
-    Task<List<CustomerEntity>> GetAsync();
+    Task<List<CustomerEntity>> GetAsync(int pageNumber, int pageSize);
     Task<SaveResult> CreateAsync(CustomerEntity customer);
     Task<bool> DeleteAsync(Guid uid);
     Task<SaveResult> UpdateAsync(CustomerEntity customer);

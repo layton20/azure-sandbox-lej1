@@ -4,19 +4,14 @@ using Sandbox.Client.Models.Response;
 
 namespace Sandbox.Client.Clients;
 
-public class CustomerClient : ICustomerClient
+public class CustomersClient : ICustomersClient
 {
     private const string BASE_URL = "/api/customers/";
     private readonly HttpClient __HttpClient;
 
-    public CustomerClient(HttpClient httpClient)
+    public CustomersClient(HttpClient httpClient)
     {
         __HttpClient = httpClient;
-    }
-
-    public async Task<List<CustomerResponse>> GetCustomersAsync()
-    {
-        return await __HttpClient.GetFromJsonAsync<List<CustomerResponse>>(BASE_URL);
     }
 
     public async Task<CustomerResponse> GetCustomer(Guid uid)
@@ -56,5 +51,12 @@ public class CustomerClient : ICustomerClient
         HttpResponseMessage _Response = await __HttpClient.PutAsJsonAsync($"{BASE_URL}{request.Uid}", request);
         _Response.EnsureSuccessStatusCode();
         return true;
+    }
+
+    public async Task<List<CustomerResponse>> GetCustomersAsync(PagedRequest request)
+    {
+        string _URL = $"{BASE_URL}?pageNumber={request.PageNumber}&pageSize={request.PageSize}";
+
+        return await __HttpClient.GetFromJsonAsync<List<CustomerResponse>>(_URL);
     }
 }

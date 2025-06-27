@@ -20,16 +20,17 @@ public class CustomerRepository : ICustomerRepository
                throw new KeyNotFoundException($"Customer with UID {uid} not found.");
     }
 
-    public async Task<List<CustomerEntity>> GetAsync()
+    public async Task<List<CustomerEntity>> GetAsync(int pageNumber, int pageSize)
     {
-        return await __Context.Customers.ToListAsync() ??
-               throw new InvalidOperationException("No customers found in the database.");
+        return await __Context.Customers.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToListAsync();
     }
 
     public async Task<SaveResult> CreateAsync(CustomerEntity customer)
     {
         if (await __Context.Customers.AnyAsync(c => c.Email == customer.Email))
+        {
             return SaveResult.Duplicate(customer.Uid);
+        }
 
         customer.Uid = Guid.NewGuid();
         customer.CreateTimeStamp = DateTime.UtcNow;
@@ -46,7 +47,10 @@ public class CustomerRepository : ICustomerRepository
     {
         CustomerEntity? _Customer = await __Context.Customers.FirstOrDefaultAsync(c => c.Uid == uid);
 
-        if (_Customer == null) return false;
+        if (_Customer == null)
+        {
+            return false;
+        }
 
         __Context.Customers.Remove(_Customer);
 
@@ -57,7 +61,10 @@ public class CustomerRepository : ICustomerRepository
     {
         CustomerEntity? _Customer = await __Context.Customers.FirstOrDefaultAsync(c => c.Uid == customer.Uid);
 
-        if (_Customer == null) return SaveResult.Failure();
+        if (_Customer == null)
+        {
+            return SaveResult.Failure();
+        }
 
         _Customer.FirstName = customer.FirstName;
         _Customer.LastName = customer.LastName;
@@ -76,7 +83,10 @@ public class CustomerRepository : ICustomerRepository
     {
         List<CustomerEntity> _Customers = await __Context.Customers.Where(c => uids.Contains(c.Uid)).ToListAsync();
 
-        if (_Customers.IsEmpty()) return false;
+        if (_Customers.IsEmpty())
+        {
+            return false;
+        }
 
         __Context.Customers.RemoveRange(_Customers);
 

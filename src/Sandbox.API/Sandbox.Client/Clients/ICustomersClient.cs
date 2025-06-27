@@ -3,9 +3,9 @@ using Sandbox.Client.Models.Response;
 
 namespace Sandbox.Client.Clients;
 
-public interface ICustomerClient
+public interface ICustomersClient
 {
-    Task<List<CustomerResponse>> GetCustomersAsync();
+    Task<List<CustomerResponse>> GetCustomersAsync(PagedRequest request);
     Task<CustomerResponse> GetCustomer(Guid uid);
     Task<bool> DeleteCustomerAsync(Guid uid);
     Task<CreateResponse> CreateCustomerAsync(CustomerRequest request);
